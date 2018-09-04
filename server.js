@@ -2,6 +2,9 @@ const express = require('express');
 const hbs = require('hbs');
 const fs = require('fs');
 
+const port = process.env.PORT || 3000;
+const maintenanceSwitch = false;
+
 const app = express();
 
 hbs.registerPartials(__dirname + '/views/partials');
@@ -20,9 +23,13 @@ app.use((req, res, next) => {
 });
 
 app.use((req,res,next) => {
-    res.render('maintenance.hbs', {
-        pageTitle : 'Site under maintenance...'
-    });
+    if (maintenanceSwitch){
+        res.render('maintenance.hbs', {
+            pageTitle : 'Site under maintenance...'
+        });
+    }else{
+        next();
+    }
 });
 
 hbs.registerHelper('currentYear', () => new Date().getFullYear());
@@ -53,6 +60,6 @@ app.get('/bad', (req,res) => {
     });
 });
 
-app.listen(3000, () => {
-    console.log('Server up & running on port 3000');
+app.listen(port, () => {
+    console.log(`Server up & running on port ${port}`);
 });
