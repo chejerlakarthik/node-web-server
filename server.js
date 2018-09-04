@@ -30,6 +30,7 @@ app.use((req,res,next) => {
     }else{
         next();
     }
+    
 });
 
 hbs.registerHelper('currentYear', () => new Date().getFullYear());
@@ -57,6 +58,12 @@ app.get('/about', (req,res) => {
 app.get('/bad', (req,res) => {
     res.send({
         error : "This is a bad request"
+    });
+});
+
+app.get('/projects', (req,res) => {
+    res.render('projects.hbs', {
+        pageTitle : 'Project Portfolios'
     });
 });
 
